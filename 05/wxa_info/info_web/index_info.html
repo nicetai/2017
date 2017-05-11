@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>小程序调试工具</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.bootcss.com/jquery-jsonview/1.2.3/jquery.jsonview.css">
+
+  <!-- Font awesome icon -->
+  <link rel="stylesheet" href="style/font-awesome.css"> 
+  <!-- jQuery UI -->
+  <link rel="stylesheet" href="style/jquery-ui.css"> 
+  <!-- Calendar -->
+  <link rel="stylesheet" href="style/fullcalendar.css">
+  <!-- prettyPhoto -->
+  <link rel="stylesheet" href="style/prettyPhoto.css">  
+  <!-- Star rating -->
+  <link rel="stylesheet" href="style/rateit.css">
+  <!-- Date picker -->
+  <link rel="stylesheet" href="style/bootstrap-datetimepicker.min.css">
+  <!-- CLEditor -->
+  <link rel="stylesheet" href="style/jquery.cleditor.css"> 
+  <!-- Uniform -->
+  <link rel="stylesheet" href="style/uniform.default.css"> 
+  <!-- Bootstrap toggle -->
+  <link rel="stylesheet" href="style/bootstrap-switch.css">
+  <!-- Main stylesheet -->
+  <link href="style/style.css" rel="stylesheet">
+  <!-- Widgets stylesheet -->
+  <link href="style/widgets.css" rel="stylesheet"> 
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .error {
+            /* font-weight: bold; */
+            color: red;
+        }   
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-static-top">
+        <!-- We use the fluid option here to avoid overriding the fixed width of a normal container within the narrow content columns. -->
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-8" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">WXA</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-8">
+                <ul class="nav navbar-nav">
+                    <li class=""><a href="../../web/index.html">小程序工具</a></li>
+					<li class="active"><a href="#">小程序性能</a></li>
+                    <li><a href="#">其他</a></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+    </nav>
+    <div class="container">
+	    <div class="row">
+            <div class="col-md-4 col-md-offset-8">
+                <div class="input-group">
+					    <!-- <li class="pull-right" style="width: 200px;"> -->
+                            <select class="form-control" name="dev_name_list" id="dev_name_list">
+                                <option value="-1">请选择设备</option>
+                            </select>
+                        <!-- </li> -->
+                    <span class="input-group-btn">
+				<button class="btn btn-default" type="button" id="btn_set_dev">确认</button>
+				</span>
+                </div>
+                <!-- /input-group -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" style="margin-top: 50px;">
+                    <ul id="myTabs" class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#rt_log" id="rt_log-tab" role="tab" data-toggle="tab" aria-controls="rt_log" aria-expanded="true">实时性能数据</a></li>
+                        <li class="pull-right" style="width: 200px;">
+                            <select class="form-control" name="session_list" id="session_list" style="width: 200px;">
+							<option value="-1">请选择时间</option>
+                            </select>
+                         </li>
+						
+						<span class="input-group-btn">
+						<li class="pull-right" style="width: 200px;">
+                            <button class="btn btn-default" type="button" id="btn_get_Info">确定</button>
+                        </li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="rt_log" aria-labelledby="rt_log-tab" style="overflow-y:scroll;height: 800px">
+                            <!--<div id="mem_chart" style="height: 400px; width: 800px;"></div> -->
+							<div class="widget">
+								<div class="widget-head">
+								  <div class="pull-left">CPU实时信息</div>
+								  <div class="clearfix"></div>
+								</div>             
+								<div class="widget-content">
+									<div class="padd">
+									<div id="live-chart"></div>
+									<hr />
+								</div>
+							  </div>
+							</div>
+							<div class="widget">
+								<div class="widget-head">
+								  <div class="pull-left">Memery实时信息</div>
+								  <div class="clearfix"></div>
+								</div>             
+								<div class="widget-content">
+									<div class="padd">
+									<div id="bar-chart"></div>
+									<hr />
+								</div>
+							  </div>
+							</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>				
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-jsonview/1.2.3/jquery.jsonview.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    
+	<!-- Include all jqplot plugins (below), or include individual files as needed -->
+	
+	<script src="js/jqplot/jquery.jqplot.min.js"></script>
+	<script src="js/jqplot/excanvas.min.js"></script>
+    <script src="js/jqplot/plugins/jqplot.barRenderer.min.js"></script>
+    <script src="js/jqplot/plugins/jqplot.pointLabels.min.js"></script>
+    <script src="js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+    <script src="js/jqplot/plugins/jqplot.cursor.min.js"></script>
+    <script src="js/jqplot/plugins/jqplot.highlighter.min.js"></script>
+    <script src="js/jqplot/plugins/jqplot.dateAxisRenderer.min.js"></script>
+    <script src="js/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
+    <script src="js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+	
+	
+	<!-- JS -->
+	<script src="js/jquery.js"></script> <!-- jQuery -->
+	<script src="js/bootstrap.js"></script> <!-- Bootstrap -->
+	<script src="js/jquery-ui-1.9.2.custom.min.js"></script> <!-- jQuery UI -->
+	<script src="js/fullcalendar.min.js"></script> <!-- Full Google Calendar - Calendar -->
+	<script src="js/jquery.rateit.min.js"></script> <!-- RateIt - Star rating -->
+	<script src="js/jquery.prettyPhoto.js"></script> <!-- prettyPhoto -->
+
+	<!-- jQuery Flot -->
+	<script src="js/excanvas.min.js"></script>
+	<script src="js/jquery.flot.js"></script>
+	<script src="js/jquery.flot.resize.js"></script>
+	<script src="js/jquery.flot.pie.js"></script>
+	<script src="js/jquery.flot.stack.js"></script>
+
+	<!-- jQuery Notification - Noty -->
+	<script src="js/jquery.noty.js"></script> <!-- jQuery Notify -->
+	<script src="js/themes/default.js"></script> <!-- jQuery Notify -->
+	<script src="js/layouts/bottom.js"></script> <!-- jQuery Notify -->
+	<script src="js/layouts/topRight.js"></script> <!-- jQuery Notify -->
+	<script src="js/layouts/top.js"></script> <!-- jQuery Notify -->
+	<!-- jQuery Notification ends -->
+
+	<script src="js/sparklines.js"></script> <!-- Sparklines -->
+	<script src="js/jquery.cleditor.min.js"></script> <!-- CLEditor -->
+	<script src="js/bootstrap-datetimepicker.min.js"></script> <!-- Date picker -->
+	<script src="js/jquery.uniform.min.js"></script> <!-- jQuery Uniform -->
+	<script src="js/bootstrap-switch.min.js"></script> <!-- Bootstrap Toggle -->
+	<script src="js/filter.js"></script> <!-- Filter for support page -->
+	<script src="js/custom.js"></script> <!-- Custom codes -->
+	<script src="js/charts.js"></script> <!-- Charts & Graphs -->
+	
+	<!--<script src="js/main.js"></script> -->
+	<script src="js/getInfo.js"></script>
+
+
+</body>
+
+</html>

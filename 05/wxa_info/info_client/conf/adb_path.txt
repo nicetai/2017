@@ -1,0 +1,1 @@
+D:\androidtest\sdk\sdk\platform-tools\adb.exe
